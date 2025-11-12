@@ -18,6 +18,8 @@
 
   <p>Current value: <span id="current">?</span></p>
 
+  <p>Tx status: <span id="txstatus">idle</span></p>
+
   <!-- Load ethers (UMD build attaches `window.ethers`) -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js" crossorigin="anonymous"></script>
 
@@ -32,6 +34,6 @@
   </script>
 
   <!-- Your app, loaded after ethers -->
-  <script defer src="./app.js"></script>
+  <script defer src="./app.v5.js?v=5"></script>
 </body>
 </html>
