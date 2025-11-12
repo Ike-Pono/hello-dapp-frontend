@@ -125,6 +125,8 @@ async function connect() {
     btnSet.disabled = false;
     btnGet.disabled = false;
 
+    const txSpan = document.getElementById("txstatus");
+
     // Live updates & auto-reloads on changes
     contract.on("ValueChanged", (_, v) => { curSpan.textContent = v.toString(); });
     window.ethereum.on?.("accountsChanged", () => location.reload());
@@ -140,9 +142,31 @@ btnSet.onclick = async () => {
     if (!contract) { alert("Not connected yet."); return; }
     const val = Number(input.value);
     if (!Number.isFinite(val)) { alert("Enter a number"); return; }
+    
+try {
+  txSpan.textContent = "mining…";
+  const tx = await contract.set(42);
+  await tx.wait();
+  txSpan.textContent = "confirmed ✅";
+} catch (err) {
+  console.error(err);
+  txSpan.textContent = "failed ❌";
+};
+
     const tx = await contract.set(val);
+
+try {
+  txSpan.textContent = "mining…";
+  const tx = await contract.set(42);
+  await tx.wait();
+  txSpan.textContent = "confirmed ✅";
+} catch (err) {
+  console.error(err);
+  txSpan.textContent = "failed ❌";
+};
+
     await tx.wait();
-    alert("Tx mined: " + tx.hash);
+    alert(`Tx mined: https://sepolia.etherscan.io/tx/${tx.hash}`);
   } catch (e) {
     console.error("Set failed:", e);
     alert("Set failed. See console.");
@@ -158,6 +182,17 @@ btnGet.onclick = async () => {
     console.error("Get failed:", e);
     alert("Get failed. See console.");
   }
+
+try {
+  txSpan.textContent = "mining…";
+  const tx = await contract.set(42);
+  await tx.wait();
+  txSpan.textContent = "confirmed ✅";
+} catch (err) {
+  console.error(err);
+  txSpan.textContent = "failed ❌";
+}
+
 };
 
 // Run after DOM is parsed (since we use `defer`)
