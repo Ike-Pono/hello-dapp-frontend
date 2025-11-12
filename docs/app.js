@@ -1,3 +1,37 @@
+// --- Force the "Network" label to update immediately ---
+(function () {
+  try {
+    const el = document.getElementById('net');
+    if (!el) { console.log('Missing #net span in HTML'); return; }
+
+    // If ethers didn't load yet, try again after load
+    if (typeof window.ethers === 'undefined') {
+      window.addEventListener('load', () => {
+        tryShowNet(el).catch(e => console.error('showNet (onload) error:', e));
+      });
+    } else {
+      tryShowNet(el).catch(e => console.error('showNet error:', e));
+    }
+
+    async function tryShowNet(target) {
+      let name = 'unknown';
+      if (typeof window.ethereum !== 'undefined') {
+        const p = new ethers.BrowserProvider(window.ethereum);
+        const id = await p.send('eth_chainId', []);
+        name = (id === '0xaa36a7') ? 'Sepolia (0xaa36a7)' : `Chain ${id}`;
+      } else {
+        // Read-only fallback, still shows a network name
+        const ro = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
+        const id = await ro.send('eth_chainId', []);
+        name = (id === '0xaa36a7') ? 'Sepolia (read-only)' : `Chain ${id}`;
+      }
+      target.textContent = name;      // 👈 this sets the label
+    }
+  } catch (e) {
+    console.error('Immediate network label update failed:', e);
+  }
+})();
+
 let ABI;
 await fetch('./abi.json').then(r => r.json()).then(a => { ABI = a; });
 
