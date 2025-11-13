@@ -4,38 +4,42 @@
   <meta charset="utf-8" />
   <title>SimpleStorage dApp (Sepolia)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 720px; margin: 40px auto; line-height: 1.4; }
+    h1 { margin-bottom: 0.25rem; }
+    small { color: #666; }
+    input, button { font-size: 1rem; padding: 0.4rem 0.6rem; margin: 0.2rem 0.1rem; }
+    button[disabled] { opacity: .5; cursor: not-allowed; }
+    .row { margin: .6rem 0; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
 </head>
 <body>
   <h1>SimpleStorage dApp</h1>
-  <p>Network: <span id="net">unknown</span></p>
-  <p>Contract: <span id="addr">0xcf73DDcd0b4a7a46e1945CDdFB7a4CA37C6e6e82</span></p>
+  <small>Deployed on Sepolia test network</small>
 
-  <div>
+  <div class="row">
+    <strong>Network:</strong> <span id="net" class="mono">unknown</span>
+  </div>
+  <div class="row">
+    <strong>Contract:</strong> <span id="addr" class="mono">0xcf73DDcd0b4a7a46e1945CDdFB7a4CA37C6e6e82</span>
+  </div>
+
+  <div class="row">
     <input id="newValue" type="number" placeholder="New value" />
     <button id="btnSet" disabled>Set</button>
     <button id="btnGet" disabled>Get</button>
   </div>
 
-  <p>Current value: <span id="current">?</span></p>
+  <div class="row">
+    <strong>Current value:</strong> <span id="current" class="mono">?</span>
+  </div>
+  <div class="row">
+    <strong>Tx status:</strong> <span id="txstatus" class="mono">idle</span>
+  </div>
 
-  <p>Tx status: <span id="txstatus">idle</span></p>
-
-  <!-- Load ethers (UMD build attaches `window.ethers`) -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js" crossorigin="anonymous"></script>
-<script defer src="./app.js?v=10"></script>
-
-  <!-- Fallback in case the first CDN is blocked -->
-  <script>
-    if (typeof window.ethers === "undefined") {
-      var s = document.createElement("script");
-      s.src = "https://unpkg.com/ethers@6.13.2/dist/ethers.umd.min.js";
-      s.crossOrigin = "anonymous";
-      document.head.appendChild(s);
-    }
-  </script>
-
-  <!-- Your app, loaded after ethers -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js" crossorigin="anonymous"></script>
-<script defer src="./app.js?v=11"></script>
+  <!-- EXACTLY ONE ethers script, then EXACTLY ONE app script -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js" crossorigin="anonymous"></script>
+  <script defer src="./app.js?v=12"></script>
 </body>
 </html>
